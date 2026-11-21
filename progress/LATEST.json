@@ -1,8 +1,8 @@
 {
-  "id": "20261121T035651Z",
-  "beijing": "2026-11-21T11:56:51.235957+08:00",
-  "utc": "2026-11-21T03:56:51.235957+00:00",
-  "los_angeles": "2026-11-20T19:56:51.235957-08:00",
+  "id": "20261121T070001Z",
+  "beijing": "2026-11-21T15:00:01.925765+08:00",
+  "utc": "2026-11-21T07:00:01.925765+00:00",
+  "los_angeles": "2026-11-20T23:00:01.925765-08:00",
   "room_id": "wrPPybcQAAh0UjrU0aSK-BdQpYi9kdFg",
   "scope": "one_group_only",
   "inventory": {
@@ -51,28 +51,24 @@
       }
     }
   },
-  "changed_paths": [
-    " M scripts/backup.py",
-    "?? scripts/test_crypto.py",
-    "?? server/mac-mirror/"
-  ],
+  "changed_paths": [],
   "finance_sdk_sha256": "79ced4de6b18d5e96a21cd06f325794dc8957f8925120538d56d4ce827d3dfd0",
   "parts": [
     {
       "name": "snapshot.enc.part000",
       "bytes": 134217728,
-      "sha256": "04f67cfded8199d3a4cd5457c124aac130ce3894a2a2de8ce24ac40e977ba618"
+      "sha256": "2034ac056ab3c0a8d1712267db624288dbb9196aae441acb5758fc224c18a890"
     },
     {
       "name": "snapshot.enc.part001",
       "bytes": 134217728,
-      "sha256": "bb71e04a86edcf865c969f2515d289f0c30e6e1bdece25b669661baedfef4714"
+      "sha256": "cb513fa077ce09ff4e2da45f38c4fd32c48ed5786e1eb6d1a21b79b7f3efa032"
     },
     {
       "name": "snapshot.enc.part002",
-      "bytes": 35890165,
-      "sha256": "b7974922b667c6fbe4704e2f48eb8a847b997354fc6b14c9216df27cf037a91c"
+      "bytes": 35891664,
+      "sha256": "ae3d02feee58f0034e92cc9eb5b39a7c3348ad738cdb140de929142ade7fc1ca"
     }
   ],
-  "encrypted_sha256": "3fdbb112949837bab2ae29bceed9fd95b1acaaecc421087d1ef67e4024a813b7"
+  "encrypted_sha256": "de428c80e3a15eb13f836c7cce152d49a2d3f0fa72aa7cbebfe0987209326575"
 }

@@ -41,3 +41,13 @@ Mac规范工作目录：`/Users/alston/Projects/banyuexuan-intelligent-hub`；`i
 ## 保护与回滚
 
 不改原始消息事实、不发群、不发布客户页面、不训练。采集修复回滚仅恢复备份worker.py并重建 archive-worker；回滚后校验问题会再次阻塞，必须先评估。数据库恢复只进新隔离数据库，验收后另行安排生产切换。服务器/数据库/API凭证由所有者恢复，仓库仅提供变量和路径说明。
+
+<!-- AUTO-STATUS:START -->
+## 自动更新的接手检查点
+
+采样北京时间：2026-11-21T15:00:01.925765+08:00。
+
+当前正式群原始消息 1298 条；案例包 108；待重试附件 1。资料清单、Mac同步时间及文件变化见 progress/LATEST.json。
+
+本段随每次备份自动更新；人工待办仍以本文上方为准。快照上传结果必须核对GitHub Release和服务器state/last-run.json，不能以此采样时间替代成功。
+<!-- AUTO-STATUS:END -->

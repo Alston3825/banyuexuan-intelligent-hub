@@ -1,0 +1,16 @@
+{
+    auto_https off
+    admin off
+}
+https://review.banyuexuan.com:8443 {
+    tls /certs/review.crt /certs/review.key
+    encode gzip
+    header {
+        X-Content-Type-Options nosniff
+        X-Frame-Options DENY
+        Referrer-Policy no-referrer
+        Cache-Control no-store
+        Content-Security-Policy "default-src 'self'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src 'self' data:; base-uri 'none'; frame-ancestors 'none'; form-action 'self'"
+    }
+    reverse_proxy banyuexuan-review-app:8767
+}

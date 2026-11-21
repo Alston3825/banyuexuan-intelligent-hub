@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0"><dict>
+<key>Label</key><string>com.banyuexuan.backup-sync</string>
+<key>ProgramArguments</key><array><string>/usr/bin/python3</string><string>/Users/alston/Projects/banyuexuan-intelligent-hub/scripts/sync_mac.py</string></array>
+<key>StartInterval</key><integer>300</integer>
+<key>RunAtLoad</key><true/>
+<key>StandardOutPath</key><string>/Users/alston/Library/Logs/banyuexuan-backup-sync.log</string>
+<key>StandardErrorPath</key><string>/Users/alston/Library/Logs/banyuexuan-backup-sync-error.log</string>
+</dict></plist>

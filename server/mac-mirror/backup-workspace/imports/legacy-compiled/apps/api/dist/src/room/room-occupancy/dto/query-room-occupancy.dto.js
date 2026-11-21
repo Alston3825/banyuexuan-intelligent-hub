@@ -1,0 +1,62 @@
+"use strict";
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+var _a;
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.QueryRoomOccupancyDto = void 0;
+const swagger_1 = require("@nestjs/swagger");
+const client_1 = require("@prisma/client");
+const class_validator_1 = require("class-validator");
+class QueryRoomOccupancyDto {
+    storeId;
+    roomId;
+    customerId;
+    status;
+    from;
+    to;
+}
+exports.QueryRoomOccupancyDto = QueryRoomOccupancyDto;
+__decorate([
+    (0, swagger_1.ApiProperty)({ required: false }),
+    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.IsString)(),
+    __metadata("design:type", String)
+], QueryRoomOccupancyDto.prototype, "storeId", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({ required: false }),
+    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.IsString)(),
+    __metadata("design:type", String)
+], QueryRoomOccupancyDto.prototype, "roomId", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({ required: false }),
+    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.IsString)(),
+    __metadata("design:type", String)
+], QueryRoomOccupancyDto.prototype, "customerId", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({ required: false, enum: client_1.RoomOccupancyStatus }),
+    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.IsEnum)(client_1.RoomOccupancyStatus),
+    __metadata("design:type", typeof (_a = typeof client_1.RoomOccupancyStatus !== "undefined" && client_1.RoomOccupancyStatus) === "function" ? _a : Object)
+], QueryRoomOccupancyDto.prototype, "status", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({ required: false, description: '时间轴窗口起始日期（含），需与to同时提供' }),
+    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.IsDateString)(),
+    __metadata("design:type", String)
+], QueryRoomOccupancyDto.prototype, "from", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({ required: false, description: '时间轴窗口结束日期（含），需与from同时提供' }),
+    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.IsDateString)(),
+    __metadata("design:type", String)
+], QueryRoomOccupancyDto.prototype, "to", void 0);
+//# sourceMappingURL=query-room-occupancy.dto.js.map

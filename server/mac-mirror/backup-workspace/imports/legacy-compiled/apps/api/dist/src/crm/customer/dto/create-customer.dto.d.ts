@@ -1,0 +1,34 @@
+import { CustomerSource, ReferrerType } from '@prisma/client';
+export declare class CreateCustomerDto {
+    name: string;
+    phone: string;
+    allowDuplicatePhone?: boolean;
+    channelTypeId?: string;
+    source?: CustomerSource;
+    channelId?: string;
+    primaryStoreId?: string;
+    assignedToId?: string;
+    phoneSalesId?: string;
+    salutation?: string;
+    wechat?: string;
+    serviceTypes?: string[];
+    hospital?: string;
+    expectedDueDate?: string;
+    region?: string;
+    address?: string;
+    zone?: string;
+    remark?: string;
+    idCardNo?: string;
+    birthday?: string;
+    allergens?: string;
+    dietTaboo?: string;
+    hisNo?: string;
+    passportNo?: string;
+    emergencyContactName?: string;
+    emergencyContactRelation?: string;
+    emergencyContactPhone?: string;
+    referrerType?: ReferrerType;
+    referrerId?: string;
+    ccAccountIds?: string[];
+    registeredAt?: string;
+}

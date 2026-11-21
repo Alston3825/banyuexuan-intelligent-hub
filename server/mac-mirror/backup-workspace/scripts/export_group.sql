@@ -1,0 +1,30 @@
+\set ON_ERROR_STOP on
+BEGIN ISOLATION LEVEL REPEATABLE READ; -- Only temporary views are created; all persistent tables are read-only.
+CREATE TEMP VIEW allowed_cases AS SELECT id FROM xiaoyue_curated.case_bundles WHERE room_id='wrPPybcQAAh0UjrU0aSK-BdQpYi9kdFg';
+CREATE TEMP VIEW allowed_versions AS SELECT id FROM xiaoyue_curated.versions WHERE case_id IN (SELECT id FROM allowed_cases);
+CREATE TEMP VIEW allowed_people AS SELECT customer_id AS id FROM xiaoyue_curated.case_bundles WHERE id IN (SELECT id FROM allowed_cases) UNION SELECT responder_id FROM xiaoyue_curated.answers WHERE case_id IN (SELECT id FROM allowed_cases);
+CREATE TEMP VIEW allowed_attachments AS SELECT a.id FROM xiaoyue.attachments a JOIN xiaoyue.messages m ON m.id=a.message_id WHERE m.conversation_id='wrPPybcQAAh0UjrU0aSK-BdQpYi9kdFg';
+SELECT json_build_object('table','xiaoyue.messages','row',row_to_json(t)) FROM xiaoyue.messages t WHERE conversation_id='wrPPybcQAAh0UjrU0aSK-BdQpYi9kdFg';
+SELECT json_build_object('table','xiaoyue.attachments','row',row_to_json(t)) FROM xiaoyue.attachments t WHERE id IN (SELECT id FROM allowed_attachments);
+SELECT json_build_object('table','xiaoyue_curated.people','row',row_to_json(t)) FROM xiaoyue_curated.people t WHERE id IN (SELECT id FROM allowed_people);
+SELECT json_build_object('table','xiaoyue_curated.accounts','row',row_to_json(t)) FROM xiaoyue_curated.accounts t WHERE person_id IN (SELECT id FROM allowed_people);
+SELECT json_build_object('table','xiaoyue_curated.categories','row',row_to_json(t)) FROM xiaoyue_curated.categories t;
+SELECT json_build_object('table','xiaoyue_curated.case_bundles','row',row_to_json(t)) FROM xiaoyue_curated.case_bundles t WHERE id IN (SELECT id FROM allowed_cases);
+SELECT json_build_object('table','xiaoyue_curated.subjects','row',row_to_json(t)) FROM xiaoyue_curated.subjects t WHERE case_id IN (SELECT id FROM allowed_cases);
+SELECT json_build_object('table','xiaoyue_curated.questions','row',row_to_json(t)) FROM xiaoyue_curated.questions t WHERE case_id IN (SELECT id FROM allowed_cases);
+SELECT json_build_object('table','xiaoyue_curated.answers','row',row_to_json(t)) FROM xiaoyue_curated.answers t WHERE case_id IN (SELECT id FROM allowed_cases);
+SELECT json_build_object('table','xiaoyue_curated.answer_links','row',row_to_json(t)) FROM xiaoyue_curated.answer_links t WHERE case_id IN (SELECT id FROM allowed_cases);
+SELECT json_build_object('table','xiaoyue_curated.evidence','row',row_to_json(t)) FROM xiaoyue_curated.evidence t WHERE case_id IN (SELECT id FROM allowed_cases);
+SELECT json_build_object('table','xiaoyue_curated.question_categories','row',row_to_json(t)) FROM xiaoyue_curated.question_categories t WHERE question_id IN (SELECT id FROM xiaoyue_curated.questions WHERE case_id IN (SELECT id FROM allowed_cases));
+SELECT json_build_object('table','xiaoyue_curated.versions','row',row_to_json(t)) FROM xiaoyue_curated.versions t WHERE id IN (SELECT id FROM allowed_versions);
+SELECT json_build_object('table','xiaoyue_curated.source_documents','row',row_to_json(t)) FROM xiaoyue_curated.source_documents t WHERE id IN (SELECT source_id FROM xiaoyue_curated.citations WHERE version_id IN (SELECT id FROM allowed_versions));
+SELECT json_build_object('table','xiaoyue_curated.citations','row',row_to_json(t)) FROM xiaoyue_curated.citations t WHERE version_id IN (SELECT id FROM allowed_versions);
+SELECT json_build_object('table','xiaoyue_curated.media_variants','row',row_to_json(t)) FROM xiaoyue_curated.media_variants t WHERE attachment_id IN (SELECT id FROM allowed_attachments);
+SELECT json_build_object('table','xiaoyue_curated.version_media','row',row_to_json(t)) FROM xiaoyue_curated.version_media t WHERE version_id IN (SELECT id FROM allowed_versions);
+SELECT json_build_object('table','xiaoyue_curated.reviews','row',row_to_json(t)) FROM xiaoyue_curated.reviews t WHERE case_id IN (SELECT id FROM allowed_cases);
+SELECT json_build_object('table','xiaoyue_curated.usage_permissions','row',row_to_json(t)) FROM xiaoyue_curated.usage_permissions t WHERE case_id IN (SELECT id FROM allowed_cases);
+SELECT json_build_object('table','xiaoyue_curated.dataset_items','row',row_to_json(t)) FROM xiaoyue_curated.dataset_items t WHERE case_id IN (SELECT id FROM allowed_cases);
+SELECT json_build_object('table','xiaoyue_curated.case_relations','row',row_to_json(t)) FROM xiaoyue_curated.case_relations t WHERE source_case_id IN (SELECT id FROM allowed_cases) AND target_case_id IN (SELECT id FROM allowed_cases);
+SELECT json_build_object('table','xiaoyue_curated.intake_keys','row',row_to_json(t)) FROM xiaoyue_curated.intake_keys t WHERE room_id='wrPPybcQAAh0UjrU0aSK-BdQpYi9kdFg';
+SELECT json_build_object('table','xiaoyue_curated.intake_runs','row',row_to_json(t)) FROM xiaoyue_curated.intake_runs t WHERE room_id='wrPPybcQAAh0UjrU0aSK-BdQpYi9kdFg';
+COMMIT;

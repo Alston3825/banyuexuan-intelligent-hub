@@ -1,0 +1,32 @@
+import { TagService } from '../../platform/tag/tag.service';
+import { CustomerService } from './customer.service';
+import { CreateCustomerDto } from './dto/create-customer.dto';
+import { UpdateCustomerDto } from './dto/update-customer.dto';
+import { MergeCustomerDto } from './dto/merge-customer.dto';
+import { ArchiveCustomerDto } from './dto/archive-customer.dto';
+import { QueryCustomerDto } from './dto/query-customer.dto';
+import { SetCustomerTagDto } from './dto/set-customer-tag.dto';
+export declare class CustomerController {
+    private readonly customerService;
+    private readonly tagService;
+    constructor(customerService: CustomerService, tagService: TagService);
+    findAll(query: QueryCustomerDto): Promise<{}>;
+    options(): unknown;
+    tagCatalog(category: string): any;
+    staffOptions(keyword?: string, salesOnly?: string): unknown;
+    referrerSearch(keyword?: string): unknown;
+    idCardCheck(idCardNo?: string): import("../../common/utils/id-card.util").IdCardCheck;
+    mergePreview(sourceId: string, targetId: string): unknown;
+    findOne(id: string): Promise<Customer>;
+    create(dto: CreateCustomerDto): Promise<Customer>;
+    update(id: string, dto: UpdateCustomerDto): Promise<Customer>;
+    deleteCheck(id: string): unknown;
+    remove(id: string, confirmName?: string): Promise<void>;
+    merge(dto: MergeCustomerDto): Promise<void>;
+    archive(id: string, dto: ArchiveCustomerDto): Promise<void>;
+    restore(id: string): Promise<void>;
+    listTags(id: string): any;
+    listTagHistory(id: string, category?: string): any;
+    setTag(id: string, dto: SetCustomerTagDto): unknown;
+    unbindTag(bindingId: string): unknown;
+}

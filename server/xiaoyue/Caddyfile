@@ -1,0 +1,33 @@
+api.banyuexuan.com {
+    encode zstd gzip
+
+    header {
+        X-Content-Type-Options "nosniff"
+        X-Frame-Options "DENY"
+        Referrer-Policy "no-referrer"
+        Content-Security-Policy "default-src 'none'; style-src 'unsafe-inline'; img-src 'self' data:; base-uri 'none'; frame-ancestors 'none'; form-action 'none'"
+    }
+
+    @wecom_callback {
+        path /wecom/archive/events
+        remote_ip 106.55.201.217/32 106.55.202.215/32 106.55.227.187/32 112.53.2.93/32 113.108.92.100/32 119.147.179.37/32 14.116.241.251/32 159.75.144.151/32 183.47.117.101/32 183.47.98.168/32 183.47.98.227/32
+    }
+
+    handle @wecom_callback {
+        reverse_proxy callback:3000
+    }
+
+    handle / {
+        root * /srv
+        file_server
+    }
+
+    handle /index.html {
+        root * /srv
+        file_server
+    }
+
+    handle {
+        respond "Not Found" 404
+    }
+}

@@ -1,0 +1,74 @@
+import { OnModuleDestroy, OnModuleInit } from '@nestjs/common';
+import { PrismaService } from '../../prisma/prisma.service';
+import { Kuaidi100Client } from './kuaidi100.client';
+type OrderLogisticsRow = {
+    id: string;
+    platform: string | null;
+    platformOrderNo: string | null;
+    expressNo: string | null;
+    expressCompany: string | null;
+    expressPhoneTail: string | null;
+    logisticsState: number | null;
+    logisticsTrace: unknown;
+    logisticsCheckedAt: Date | null;
+    logisticsError: string | null;
+};
+export declare class PurchaseOrderLogisticsCore implements OnModuleInit, OnModuleDestroy {
+    private readonly prisma;
+    private readonly client;
+    private readonly logger;
+    private timer;
+    constructor(prisma: PrismaService, client: Kuaidi100Client);
+    onModuleInit(): void;
+    onModuleDestroy(): void;
+    refreshOrder(id: string, throwOnError: boolean): unknown;
+    autoRefresh(): Promise<number>;
+    refreshShipment(id: string, throwOnError: boolean): unknown;
+    refreshShipments(ids: string[]): Promise<number>;
+    shipmentView(sh: {
+        id: string;
+        platform: string;
+        platformOrderNo: string;
+        sellerName: string | null;
+        goodsTitle: string | null;
+        amount: number;
+        orderStatus: string | null;
+        expressCompany: string | null;
+        expressNo: string;
+        logisticsState: number | null;
+        logisticsTrace: unknown;
+        logisticsCheckedAt: Date | null;
+        logisticsError: string | null;
+    }): {
+        id: string;
+        platform: string;
+        platformOrderNo: string;
+        sellerName: string | null;
+        goodsTitle: string | null;
+        amount: number;
+        orderStatus: string | null;
+        expressCompany: string | null;
+        expressCompanyName: any;
+        expressNo: string;
+        logisticsState: number | null;
+        logisticsStateLabel: any;
+        trace: unknown;
+        checkedAt: any;
+        error: string | null;
+    };
+    view(o: OrderLogisticsRow): {
+        id: string;
+        platform: string | null;
+        platformOrderNo: string | null;
+        expressNo: string | null;
+        expressCompany: string | null;
+        expressCompanyName: any;
+        expressPhoneTail: string | null;
+        logisticsState: number | null;
+        logisticsStateLabel: any;
+        trace: unknown;
+        checkedAt: any;
+        error: string | null;
+    };
+}
+export {};

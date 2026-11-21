@@ -1,0 +1,27 @@
+services:
+  knowledge-worker:
+    image: xiaoyue-archive-worker:latest
+    pull_policy: never
+    restart: unless-stopped
+    command: [python, /knowledge/worker.py, run]
+    env_file: [/opt/xiaoyue/config/postgres.env]
+    environment:
+      PGHOST: postgres
+      PYTHONDONTWRITEBYTECODE: '1'
+    volumes:
+      - /opt/xiaoyue/app/knowledge-v1:/knowledge:ro
+    read_only: true
+    tmpfs:
+      - /tmp:rw,noexec,nosuid,size=16m
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+    networks: [archive]
+    healthcheck:
+      test: [CMD, python, -c, "import os,time,sys; p='/tmp/knowledge-heartbeat'; sys.exit(0 if os.path.exists(p) and time.time()-os.path.getmtime(p)<180 else 1)"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+networks:
+  archive:
+    external: true
+    name: xiaoyue_default

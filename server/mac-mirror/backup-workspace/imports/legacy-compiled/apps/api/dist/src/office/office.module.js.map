@@ -1,0 +1,1 @@
+{"version":3,"file":"office.module.js","sourceRoot":"","sources":["../../../src/office/office.module.ts"],"names":[],"mappings":";;;;;;;;;AAAA,2CAAwC;AACxC,+EAA0E;AAC1E,+EAA0E;AAC1E,4EAAuE;AAKhE,IAAM,YAAY,GAAlB,MAAM,YAAY;CAAG,CAAA;AAAf,oCAAY;uBAAZ,YAAY;IAHxB,IAAA,eAAM,EAAC;QACN,OAAO,EAAE,CAAC,yCAAkB,EAAE,yCAAkB,EAAE,uCAAiB,CAAC;KACrE,CAAC;GACW,YAAY,CAAG"}

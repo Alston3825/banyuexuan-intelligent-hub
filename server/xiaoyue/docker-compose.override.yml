@@ -1,0 +1,37 @@
+services:
+  caddy:
+    volumes:
+      - ./public:/srv:ro
+
+  archive-worker:
+    build:
+      context: ./app/archive-worker
+    container_name: xiaoyue-archive-worker
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+    env_file:
+      - ./config/postgres.env
+      - ./config/wecom_archive.env
+    environment:
+      PGHOST: postgres
+      MAX_MEDIA_BYTES: "209715200"
+    user: "1000:1001"
+    volumes:
+      - ./config/wecom_archive_secret:/run/secrets/wecom_archive_secret:ro
+      - ./config/wecom_private_key.pem:/run/secrets/wecom_private_key.pem:ro
+      - ./data/archive-media:/archive-media
+    read_only: true
+    tmpfs:
+      - /tmp:rw,noexec,nosuid,size=16m
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    healthcheck:
+      test: ["CMD", "python", "-c", "import os,time,sys; p='/tmp/archive-worker-heartbeat'; sys.exit(0 if os.path.exists(p) and time.time()-os.path.getmtime(p)<120 else 1)"]
+      interval: 30s
+      timeout: 5s
+      retries: 4
+      start_period: 45s

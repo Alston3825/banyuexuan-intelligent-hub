@@ -1,0 +1,30 @@
+import { RequestContextService } from '../../common/context/request-context.service';
+import { WorkflowEngineService } from './workflow-engine.service';
+import { WorkflowQueryService } from './workflow-query.service';
+import { PrismaService } from '../../prisma/prisma.service';
+import { CommentDto } from './dto/comment.dto';
+import { ReassignDto } from './dto/reassign.dto';
+import { AddApproverDto } from './dto/add-approver.dto';
+import { CcDto } from './dto/cc.dto';
+import { QueryWorkflowInstanceDto } from './dto/query-workflow-instance.dto';
+export declare class WorkflowEngineController {
+    private readonly workflowEngineService;
+    private readonly queryService;
+    private readonly prisma;
+    private readonly ctx;
+    constructor(workflowEngineService: WorkflowEngineService, queryService: WorkflowQueryService, prisma: PrismaService, ctx: RequestContextService);
+    findByBusiness(query: QueryWorkflowInstanceDto): import(".prisma/client").Prisma.Prisma__WorkflowInstanceClient<any, null, import("@prisma/client/runtime/library").DefaultArgs, import(".prisma/client").Prisma.PrismaClientOptions>;
+    approvals(tab?: string, keyword?: string): unknown;
+    progressByBusiness(query: QueryWorkflowInstanceDto): unknown;
+    progress(id: string): unknown;
+    urge(id: string, dto: CommentDto): Promise<Array<S & import("@prisma/client/runtime/library").UnwrapPayload<C>>>;
+    findOne(id: string): unknown;
+    approve(id: string, dto: CommentDto): Promise<Array<S & import("@prisma/client/runtime/library").UnwrapPayload<C>>>;
+    reject(id: string, dto: CommentDto): Promise<Array<S & import("@prisma/client/runtime/library").UnwrapPayload<C>>>;
+    withdraw(id: string, dto: CommentDto): Promise<Array<S & import("@prisma/client/runtime/library").UnwrapPayload<C>>>;
+    reassign(id: string, dto: ReassignDto): any;
+    addApprover(id: string, dto: AddApproverDto): Promise<Array<S & import("@prisma/client/runtime/library").UnwrapPayload<C>>>;
+    cc(id: string, dto: CcDto): Promise<Array<S & import("@prisma/client/runtime/library").UnwrapPayload<C>>>;
+    archive(id: string): Promise<Array<S & import("@prisma/client/runtime/library").UnwrapPayload<C>>>;
+    private actor;
+}

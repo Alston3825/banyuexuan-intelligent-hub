@@ -1,0 +1,78 @@
+{
+  "id": "20261121T035651Z",
+  "beijing": "2026-11-21T11:56:51.235957+08:00",
+  "utc": "2026-11-21T03:56:51.235957+00:00",
+  "los_angeles": "2026-11-20T19:56:51.235957-08:00",
+  "room_id": "wrPPybcQAAh0UjrU0aSK-BdQpYi9kdFg",
+  "scope": "one_group_only",
+  "inventory": {
+    "xiaoyue": {
+      "included": 19,
+      "excluded": 5,
+      "blocked": []
+    },
+    "review-app": {
+      "included": 8,
+      "excluded": 4,
+      "blocked": []
+    },
+    "mac-mirror": {
+      "included": 1906,
+      "excluded": 1,
+      "blocked": []
+    }
+  },
+  "private_keys_included": false,
+  "row_counts": {
+    "xiaoyue.messages": 1298,
+    "xiaoyue.attachments": 243,
+    "xiaoyue_curated.people": 71,
+    "xiaoyue_curated.accounts": 72,
+    "xiaoyue_curated.categories": 6,
+    "xiaoyue_curated.case_bundles": 108,
+    "xiaoyue_curated.questions": 171,
+    "xiaoyue_curated.answers": 126,
+    "xiaoyue_curated.answer_links": 170,
+    "xiaoyue_curated.evidence": 499,
+    "xiaoyue_curated.question_categories": 205,
+    "xiaoyue_curated.reviews": 3,
+    "xiaoyue_curated.intake_keys": 297,
+    "xiaoyue_curated.intake_runs": 25
+  },
+  "pending_media_count": 1,
+  "mac_sync": {
+    "utc": "2026-11-21T03:55:55.704925+00:00",
+    "beijing": "2026-11-21T11:55:55.253438+08:00",
+    "inventory": {
+      "backup-workspace": {
+        "included": 1906,
+        "excluded": 0,
+        "blocked": []
+      }
+    }
+  },
+  "changed_paths": [
+    " M scripts/backup.py",
+    "?? scripts/test_crypto.py",
+    "?? server/mac-mirror/"
+  ],
+  "finance_sdk_sha256": "79ced4de6b18d5e96a21cd06f325794dc8957f8925120538d56d4ce827d3dfd0",
+  "parts": [
+    {
+      "name": "snapshot.enc.part000",
+      "bytes": 134217728,
+      "sha256": "04f67cfded8199d3a4cd5457c124aac130ce3894a2a2de8ce24ac40e977ba618"
+    },
+    {
+      "name": "snapshot.enc.part001",
+      "bytes": 134217728,
+      "sha256": "bb71e04a86edcf865c969f2515d289f0c30e6e1bdece25b669661baedfef4714"
+    },
+    {
+      "name": "snapshot.enc.part002",
+      "bytes": 35890165,
+      "sha256": "b7974922b667c6fbe4704e2f48eb8a847b997354fc6b14c9216df27cf037a91c"
+    }
+  ],
+  "encrypted_sha256": "3fdbb112949837bab2ae29bceed9fd95b1acaaecc421087d1ef67e4024a813b7"
+}

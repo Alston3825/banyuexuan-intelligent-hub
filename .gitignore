@@ -1,0 +1,16 @@
+secrets/
+*.pem
+*.key
+.env*
+*.sql.gz
+*.dump
+*.tar
+*.tar.gz
+*.enc
+*.part
+__pycache__/
+.DS_Store
+snapshots/
+outbox/
+state/
+*.log

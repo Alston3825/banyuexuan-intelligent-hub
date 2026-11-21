@@ -1,0 +1,31 @@
+import { WorkspaceService } from './workspace.service';
+import { WorkbenchService } from './workbench.service';
+export declare class WorkspaceController {
+    private readonly workspaceService;
+    private readonly wb;
+    constructor(workspaceService: WorkspaceService, wb: WorkbenchService);
+    todos(): unknown;
+    badge(): unknown;
+    myTasks(): unknown;
+    createTask(b: any): unknown;
+    updateTask(id: string, b: any): unknown;
+    deleteTask(id: string): unknown;
+    myReminders(date?: string): unknown;
+    reminderDefs(): unknown;
+    reminderBadge(): any;
+    createReminder(b: any): unknown;
+    updateReminder(id: string, b: any): unknown;
+    deleteReminder(id: string): unknown;
+    markReminder(id: string, b: any): unknown;
+    myOngoing(): unknown;
+    createOngoing(b: any): unknown;
+    updateOngoing(id: string, b: any): unknown;
+    deleteOngoing(id: string): unknown;
+    addStep(id: string, b: any): unknown;
+    updateStep(id: string, sid: string, b: any): unknown;
+    deleteStep(id: string, sid: string): unknown;
+    myTheme(): unknown;
+    saveTheme(b: any): unknown;
+    myLinks(): unknown;
+    saveLinks(b: any): unknown;
+}

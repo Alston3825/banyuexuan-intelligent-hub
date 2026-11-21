@@ -1,0 +1,34 @@
+import { MotherProfile } from '@prisma/client';
+import { PrismaService } from '../../prisma/prisma.service';
+import { AuditLogService } from '../../audit/audit-log.service';
+import { RequestContextService } from '../../common/context/request-context.service';
+import { CustomerService } from '../../crm/customer/customer.service';
+import { CareStorageService } from '../care-document/care-storage.service';
+import { RecycleBinService } from '../../common/recycle/recycle-bin.service';
+import { CreateMotherProfileDto } from './dto/create-mother-profile.dto';
+import { UpdateMotherProfileDto } from './dto/update-mother-profile.dto';
+import { QueryMotherProfileDto } from './dto/query-mother-profile.dto';
+export declare class MotherProfileService {
+    private readonly prisma;
+    private readonly customerService;
+    private readonly storage;
+    private readonly recycleBin;
+    private readonly auditLogService;
+    private readonly ctx;
+    constructor(prisma: PrismaService, customerService: CustomerService, storage: CareStorageService, recycleBin: RecycleBinService, auditLogService: AuditLogService, ctx: RequestContextService);
+    findMany(query?: QueryMotherProfileDto): any;
+    findOneOrThrow(id: string): unknown;
+    getDeleteCheck(id: string): unknown;
+    remove(id: string, force?: boolean, confirmName?: string): Promise<void>;
+    archive(id: string): Promise<void>;
+    restore(id: string): Promise<void>;
+    formOptions(): unknown;
+    nurseOptions(storeId?: string): unknown;
+    private assertNurse;
+    getRiskTags(entityType: 'MOTHER_PROFILE' | 'BABY_PROFILE', entityId: string): unknown;
+    setRiskTags(id: string, tagIds: string[]): unknown;
+    private assertTagsExist;
+    create(dto: CreateMotherProfileDto): Promise<MotherProfile>;
+    update(id: string, dto: UpdateMotherProfileDto): Promise<MotherProfile>;
+    private auditCtx;
+}

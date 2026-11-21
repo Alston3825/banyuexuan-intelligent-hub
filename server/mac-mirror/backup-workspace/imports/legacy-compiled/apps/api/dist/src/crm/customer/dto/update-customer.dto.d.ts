@@ -1,0 +1,34 @@
+import { CustomerSource, ReferrerType } from '@prisma/client';
+export declare class UpdateCustomerDto {
+    name?: string;
+    phone?: string;
+    allowDuplicatePhone?: boolean;
+    channelTypeId?: string;
+    source?: CustomerSource;
+    channelId?: string | null;
+    assignedToId?: string | null;
+    phoneSalesId?: string | null;
+    salutation?: string | null;
+    wechat?: string | null;
+    serviceTypes?: string[];
+    hospital?: string | null;
+    expectedDueDate?: string | null;
+    region?: string | null;
+    address?: string | null;
+    zone?: string | null;
+    remark?: string | null;
+    idCardNo?: string | null;
+    birthday?: string | null;
+    allergens?: string | null;
+    dietTaboo?: string | null;
+    hisNo?: string | null;
+    passportNo?: string | null;
+    emergencyContactName?: string | null;
+    emergencyContactRelation?: string | null;
+    emergencyContactPhone?: string | null;
+    referrerType?: ReferrerType | null;
+    referrerId?: string | null;
+    ccAccountIds?: string[] | null;
+    registeredAt?: string;
+    version: number;
+}

@@ -1,0 +1,9 @@
+[Unit]
+Description=Four daily backups using explicit Beijing timezone
+[Timer]
+OnCalendar=*-*-* 03,09,15,21:00:00 Asia/Shanghai
+Persistent=true
+AccuracySec=1min
+Unit=banyuexuan-backup.service
+[Install]
+WantedBy=timers.target

@@ -9,6 +9,7 @@ TOKEN=pathlib.Path('/home/ubuntu/.config/banyuexuan-backup/github-token')
 SKIP={'.git','node_modules','__pycache__','config','secrets','snapshots','outbox','state','.pending','data','backups','logs','uploads','media','.venv','venv','.local-state'}
 EXT={'.py','.js','.ts','.tsx','.jsx','.sql','.html','.css','.md','.txt','.yml','.yaml','.sh','.json','.map','.toml','.pub','.plist','.service','.timer'}
 def run(args,**kw):
+    kw.setdefault('timeout',180)
     return subprocess.run(args,check=True,stdout=subprocess.PIPE,stderr=subprocess.PIPE,**kw).stdout
 def secret_file(p):
     n=p.name.lower()
@@ -74,6 +75,37 @@ def upload_binary(tag,path):
     response=conn.getresponse();payload=response.read();conn.close()
     if response.status not in [200,201]:raise RuntimeError('Release upload HTTP '+str(response.status))
     return json.loads(payload)
+def publish_code(manifest):
+    root=ROOT/'repo';head=None;base=None
+    try:
+        head=api('GET','/repos/'+REPO+'/git/ref/heads/main')['object']['sha']
+        base=api('GET','/repos/'+REPO+'/git/commits/'+head)['tree']['sha']
+    except RuntimeError as e:
+        if str(e)!='GitHub API HTTP 404' and str(e)!='GitHub API HTTP 409':raise
+    remote={}
+    if base:
+        result=api('GET','/repos/'+REPO+'/git/trees/'+base+'?recursive=1')
+        if result.get('truncated'):raise ValueError('Remote tree truncated')
+        remote={e['path']:e['sha'] for e in result['tree'] if e['type']=='blob'}
+    state=ROOT/'state/code-api.json';previous=json.loads(state.read_text()).get('files',{}) if state.exists() else {}
+    tree=[];files={}
+    for raw in run(['git','ls-files','-z'],cwd=root).split(b'\0'):
+        if not raw:continue
+        name=raw.decode();path=root/name;data=path.read_bytes();sha=hashlib.sha1(b'blob '+str(len(data)).encode()+b'\0'+data).hexdigest();files[name]=sha
+        if remote.get(name)==sha:continue
+        if name in previous and remote.get(name) not in [previous[name],sha,None]:raise ValueError('Remote development conflicts; merge required')
+        tree.append({'path':name,'mode':'100755' if os.access(path,os.X_OK) else '100644','type':'blob','content':data.decode('utf-8')})
+    if tree:
+        body={'tree':tree}
+        if base:body['base_tree']=base
+        newtree=api('POST','/repos/'+REPO+'/git/trees',body)['sha']
+        commit=api('POST','/repos/'+REPO+'/git/commits',{'message':'Backup '+manifest['id'],'tree':newtree,'parents':[head] if head else []})['sha']
+        if head:api('PATCH','/repos/'+REPO+'/git/refs/heads/main',{'sha':commit,'force':False})
+        else:api('POST','/repos/'+REPO+'/git/refs',{'ref':'refs/heads/main','sha':commit})
+        head=commit
+    actual=api('GET','/repos/'+REPO+'/git/ref/heads/main')['object']['sha']
+    if actual!=head:raise ValueError('Remote head changed during verification')
+    state.write_text(json.dumps({'commit':head,'files':files}));return head
 def publish(folder,manifest):
     repo=api('GET','/repos/'+REPO)
     if not repo.get('private'):raise ValueError('Refuse non-private repository')
@@ -81,12 +113,11 @@ def publish(folder,manifest):
         if '.git' in path.parts or '__pycache__' in path.parts or not path.is_file():continue
         if path.suffix.lower() in {'.pem','.key','.dump','.enc'} or path.name.startswith('.env') or scan(path.read_bytes()):
             raise ValueError('Repository secret scan blocked publication')
-    env=os.environ.copy();env['GIT_ASKPASS']=str(ROOT/'repo/scripts/git-askpass.py');env['GIT_TERMINAL_PROMPT']='0'
     run(['git','add','--all'],cwd=ROOT/'repo')
     if run(['git','status','--porcelain'],cwd=ROOT/'repo').strip():
         run(['git','-c','user.name=Banyuexuan Backup','-c','user.email=backup@users.noreply.github.com','commit','-m','Backup '+manifest['id']],cwd=ROOT/'repo')
-    # Append-only push; never force or rewrite development history.
-    run(['git','push','origin','HEAD:main'],cwd=ROOT/'repo',env=env)
+    # API access works independently of the server's blocked Git smart-HTTP route.
+    publish_code(manifest)
     tag='backup-'+manifest['id']
     existing=api('GET','/repos/'+REPO+'/releases?per_page=100')
     release=next((r for r in existing if r['tag_name']==tag),None)
@@ -99,6 +130,9 @@ def publish(folder,manifest):
         upload_binary('/repos/'+REPO+'/releases/'+str(release['id'])+'/assets?name='+path.name,path)
     assets=api('GET','/repos/'+REPO+'/releases/'+str(release['id'])+'/assets?per_page=100')
     if {p.name:p.stat().st_size for p in folder.iterdir()}!={a['name']:a['size'] for a in assets}:raise ValueError('Remote asset listing mismatch')
+    for asset in assets:
+        local=folder/asset['name'];expected='sha256:'+hashlib.sha256(local.read_bytes()).hexdigest()
+        if asset.get('digest') and asset['digest']!=expected:raise ValueError('Remote asset digest mismatch')
     api('PATCH','/repos/'+REPO+'/releases/'+str(release['id']),{'draft':False})
     return 'https://github.com/'+REPO+'/releases/tag/'+tag
 def main():
@@ -120,6 +154,15 @@ def main():
     manifest={'id':ident,'beijing':bj.isoformat(),'utc':now.isoformat(),'los_angeles':now.astimezone(ZoneInfo('America/Los_Angeles')).isoformat(),'room_id':ROOM,'scope':'one_group_only','inventory':inv,'private_keys_included':False}
     with tempfile.TemporaryDirectory(prefix='byx-',dir=ROOT/'state') as temp:
         stage=pathlib.Path(temp);manifest['row_counts']=snapshot(stage)
+        pending_root=pathlib.Path('/opt/xiaoyue/data/archive-media/.pending')
+        manifest['pending_media_count']=sum(1 for p in pending_root.glob('*.json') if json.loads(p.read_text()).get('room_id')==ROOM)
+        mac_stamp=ROOT/'mac-mirror/MAC-SYNC.json'
+        manifest['mac_sync']=json.loads(mac_stamp.read_text()) if mac_stamp.exists() else {'missing':True}
+        changes=run(['git','status','--short'],cwd=ROOT/'repo').decode()
+        manifest['changed_paths']=changes.splitlines()
+        auto='\n<!-- AUTO-STATUS:START -->\n## 自动更新的接手检查点\n\n采样北京时间：'+manifest['beijing']+'。\n\n当前正式群原始消息 '+str(manifest['row_counts'].get('xiaoyue.messages',0))+' 条；案例包 '+str(manifest['row_counts'].get('xiaoyue_curated.case_bundles',0))+'；待重试附件 '+str(manifest['pending_media_count'])+'。资料清单、Mac同步时间及文件变化见 progress/LATEST.json。\n\n本段随每次备份自动更新；人工待办仍以本文上方为准。快照上传结果必须核对GitHub Release和服务器state/last-run.json，不能以此采样时间替代成功。\n<!-- AUTO-STATUS:END -->\n'
+        handoff=ROOT/'repo/HANDOFF.md';text=handoff.read_text();text=re.sub(r'\n<!-- AUTO-STATUS:START -->.*?<!-- AUTO-STATUS:END -->\n','\n',text,flags=re.S);handoff.write_text(text.rstrip()+'\n'+auto)
+        (ROOT/('repo/progress/'+bj.strftime('%Y-%m-%d')+'.md')).open('a').write('\n- '+bj.isoformat()+'：备份采样；正式群消息 '+str(manifest['row_counts'].get('xiaoyue.messages',0))+' 条；待重试附件 '+str(manifest['pending_media_count'])+'。文件变化详见同次LATEST清单，上传结果另核对。\n')
         binary=pathlib.Path('/opt/xiaoyue/app/archive-worker/libWeWorkFinanceSdk_C.so')
         if binary.exists():
             (stage/'binary').mkdir();shutil.copy2(binary,stage/'binary'/binary.name)

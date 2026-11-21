@@ -45,9 +45,9 @@ Mac规范工作目录：`/Users/alston/Projects/banyuexuan-intelligent-hub`；`i
 <!-- AUTO-STATUS:START -->
 ## 自动更新的接手检查点
 
-采样北京时间：2026-11-21T15:00:01.925765+08:00。
+采样北京时间：2026-11-21T21:00:01.967924+08:00。
 
-当前正式群原始消息 1298 条；案例包 108；待重试附件 1。资料清单、Mac同步时间及文件变化见 progress/LATEST.json。
+当前正式群原始消息 1299 条；案例包 108；待重试附件 1。资料清单、Mac同步时间及文件变化见 progress/LATEST.json。
 
 本段随每次备份自动更新；人工待办仍以本文上方为准。快照上传结果必须核对GitHub Release和服务器state/last-run.json，不能以此采样时间替代成功。
 <!-- AUTO-STATUS:END -->

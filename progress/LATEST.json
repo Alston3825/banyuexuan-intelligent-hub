@@ -1,8 +1,8 @@
 {
-  "id": "20261121T070001Z",
-  "beijing": "2026-11-21T15:00:01.925765+08:00",
-  "utc": "2026-11-21T07:00:01.925765+00:00",
-  "los_angeles": "2026-11-20T23:00:01.925765-08:00",
+  "id": "20261121T130001Z",
+  "beijing": "2026-11-21T21:00:01.967924+08:00",
+  "utc": "2026-11-21T13:00:01.967924+00:00",
+  "los_angeles": "2026-11-21T05:00:01.967924-08:00",
   "room_id": "wrPPybcQAAh0UjrU0aSK-BdQpYi9kdFg",
   "scope": "one_group_only",
   "inventory": {
@@ -17,14 +17,14 @@
       "blocked": []
     },
     "mac-mirror": {
-      "included": 1906,
+      "included": 1908,
       "excluded": 1,
       "blocked": []
     }
   },
   "private_keys_included": false,
   "row_counts": {
-    "xiaoyue.messages": 1298,
+    "xiaoyue.messages": 1299,
     "xiaoyue.attachments": 243,
     "xiaoyue_curated.people": 71,
     "xiaoyue_curated.accounts": 72,
@@ -41,34 +41,41 @@
   },
   "pending_media_count": 1,
   "mac_sync": {
-    "utc": "2026-11-21T03:55:55.704925+00:00",
-    "beijing": "2026-11-21T11:55:55.253438+08:00",
+    "utc": "2026-11-21T09:58:09.190311+00:00",
+    "beijing": "2026-11-21T17:58:08.566223+08:00",
     "inventory": {
       "backup-workspace": {
-        "included": 1906,
+        "included": 1908,
         "excluded": 0,
         "blocked": []
       }
     }
   },
-  "changed_paths": [],
+  "changed_paths": [
+    " M server/mac-mirror/backup-workspace/HANDOFF.md",
+    " M server/mac-mirror/backup-workspace/README.md",
+    " M server/mac-mirror/backup-workspace/docs/BACKUP-RESTORE.md",
+    " M server/mac-mirror/backup-workspace/scripts/backup.py",
+    "?? server/mac-mirror/backup-workspace/operations/banyuexuan-backup.service",
+    "?? server/mac-mirror/backup-workspace/operations/banyuexuan-backup.timer"
+  ],
   "finance_sdk_sha256": "79ced4de6b18d5e96a21cd06f325794dc8957f8925120538d56d4ce827d3dfd0",
   "parts": [
     {
       "name": "snapshot.enc.part000",
       "bytes": 134217728,
-      "sha256": "2034ac056ab3c0a8d1712267db624288dbb9196aae441acb5758fc224c18a890"
+      "sha256": "4f686122efefc38c8d088227055af9143906c433b74333a335d2a6c10febeed3"
     },
     {
       "name": "snapshot.enc.part001",
       "bytes": 134217728,
-      "sha256": "cb513fa077ce09ff4e2da45f38c4fd32c48ed5786e1eb6d1a21b79b7f3efa032"
+      "sha256": "8c640176e6f95f35953590df369888ac2f2a349d338a090c234deba759a5b0e8"
     },
     {
       "name": "snapshot.enc.part002",
-      "bytes": 35891664,
-      "sha256": "ae3d02feee58f0034e92cc9eb5b39a7c3348ad738cdb140de929142ade7fc1ca"
+      "bytes": 35894414,
+      "sha256": "a99f370f1cd29f08aae21b6e52023cf4d7d0390fa2815b9e72fdb7647641bcc3"
     }
   ],
-  "encrypted_sha256": "de428c80e3a15eb13f836c7cce152d49a2d3f0fa72aa7cbebfe0987209326575"
+  "encrypted_sha256": "369da12a5797f0a048c3f238b3361d38bb12ae747ac7756a99efa10073fc4b58"
 }

@@ -16,6 +16,10 @@ server/包含现有采集、回调、知识库、审核应用的可扫描代码/
 
 认证：服务器 `/home/ubuntu/.config/banyuexuan-backup/github-token`，600，不在仓库。账号只需目标私有仓库Contents读写；首次创建仓库使用所有者认证。恢复私钥仅在所有者Mac独立目录，必须由所有者另存离线介质；服务器仅安装公钥 operations/encryption-public.pub。
 
+当前使用所有者已授权的GitHub CLI OAuth登录凭证，权限可能大于单仓库。建议所有者后续换成仅限本仓库Contents读写的细粒度凭证。不要在聊天提供令牌，也不要把令牌放入Git URL。Mac后台同步从~/Projects工作目录读取；受保护Documents下旧产物已经过白名单与秘密扫描复制，原资料未删除。备份恢复私钥不用于后台任务。
+
+恢复依赖：二进制 Finance SDK 在加密快照 binary/ 内，恢复时放回 app/archive-worker；SHA-256见manifest。环境凭证不在快照中，需由所有者单独恢复。首份数据解密与媒体验证已通过；完整数据库恢复及约束重建未经执行，不把它列为已通过。
+
 ## 完整恢复步骤（仅新隔离环境）
 
 1. 从私有GitHub仓库取代码与交接，从对应Release下载manifest及所有分片。先核对每片bytes/SHA-256，按part000、part001顺序拼接snapshot.enc，再核对整体SHA-256。

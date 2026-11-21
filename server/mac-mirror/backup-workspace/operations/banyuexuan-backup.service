@@ -1,0 +1,14 @@
+[Unit]
+Description=Banyuexuan project encrypted backup and handoff
+After=docker.service network-online.target
+Wants=network-online.target
+[Service]
+Type=oneshot
+User=ubuntu
+Group=ubuntu
+WorkingDirectory=/opt/banyuexuan-backup/repo
+ExecStart=/usr/bin/python3 /opt/banyuexuan-backup/repo/scripts/backup.py
+TimeoutStartSec=3600
+UMask=0077
+NoNewPrivileges=true
+PrivateTmp=true
